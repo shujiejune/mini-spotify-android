@@ -10,6 +10,7 @@ import com.laioffer.spotify.datamodel.Section
 import com.laioffer.spotify.network.NetworkApi
 import com.laioffer.spotify.network.NetworkModule
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

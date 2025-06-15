@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 
 // customized extend AppCompatActivity
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var networkApi: NetworkApi
@@ -48,18 +49,6 @@ class MainActivity : AppCompatActivity() {
             NavigationUI.onNavDestinationSelected(it, navController)
             navController.popBackStack(it.itemId, inclusive = false)
             true
-        }
-
-        // Test Retrofit
-        //val retrofit = NetworkModule.provideRetrofit()
-        //val api: NetworkApi = retrofit.create(NetworkApi::class.java)
-        val responseCall: Call<List<Section>> = networkApi.getHomeFeed()
-
-        // Background coroutine
-        GlobalScope.launch(Dispatchers.IO) {
-            val response = responseCall.execute()
-            val sections = response.body()
-            Log.d("Network", sections.toString())
         }
     }
 }

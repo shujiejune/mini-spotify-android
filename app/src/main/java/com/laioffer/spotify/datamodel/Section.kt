@@ -8,4 +8,3 @@ data class Section (
     val sectionTitle: String,
     val albums: List<Album>
 ): Serializable
-

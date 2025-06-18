@@ -2,21 +2,18 @@ package com.laioffer.spotify.repository
 
 import com.laioffer.spotify.datamodel.Section
 import com.laioffer.spotify.network.NetworkApi
+import com.laioffer.spotify.network.NetworkModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Response
-import javax.inject.Inject
 
-// @Inject: 1. provide, 2. inject NetworkAPi
-class HomeRepository @Inject constructor(
-    private val networkApi: NetworkApi
+
+class HomeRepository (
+    private val networkApi: NetworkApi = NetworkModule.networkApi
 ) {
+
     suspend fun getHomeSections(): List<Section> = withContext(Dispatchers.IO) {
-
-        val response: Response<List<Section>> = networkApi.getHomeFeed().execute()
-        val sections: List<Section>? = response.body()
-        sections ?: listOf()
-
-        //networkApi.getHomeFeed().execute().body() ?: listOf()
+            val response = networkApi.getHomeFeed().execute()
+            val sections = response.body()
+            sections ?: listOf()
     }
 }

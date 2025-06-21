@@ -1,6 +1,7 @@
 package com.laioffer.spotify.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.laioffer.spotify.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import androidx.navigation.fragment.findNavController
 
 class HomeFragment : Fragment() {
 
@@ -26,7 +28,11 @@ class HomeFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 MaterialTheme(colors = darkColors()){
-                    HomeScreen(viewModel)
+                    HomeScreen(viewModel, onTap = {
+                        Log.d("HomeFragment", "We tapped ${it.name}")
+                        val direction = HomeFragmentDirections.actionHomeFragmentToPlaylistFragment(it)
+                        findNavController().navigate(directions = direction)
+                    })
                 }
             }
         }

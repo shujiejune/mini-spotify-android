@@ -4,6 +4,7 @@ import com.laioffer.spotify.datamodel.Section
 import com.laioffer.spotify.network.NetworkApi
 import com.laioffer.spotify.network.NetworkModule
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 
@@ -12,8 +13,9 @@ class HomeRepository (
 ) {
 
     suspend fun getHomeSections(): List<Section> = withContext(Dispatchers.IO) {
-            val response = networkApi.getHomeFeed().execute()
-            val sections = response.body()
-            sections ?: listOf()
+        delay(3000)
+        val response = networkApi.getHomeFeed().execute()
+        val sections = response.body()
+        sections ?: listOf()
     }
 }

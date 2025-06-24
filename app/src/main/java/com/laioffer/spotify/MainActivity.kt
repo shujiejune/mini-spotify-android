@@ -2,16 +2,25 @@ package com.laioffer.spotify
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
+import androidx.compose.ui.platform.ComposeView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.laioffer.spotify.database.DatabaseDao
 import com.laioffer.spotify.datamodel.Album
+import com.laioffer.spotify.network.NetworkApi
+import com.laioffer.spotify.player.PlayerBar
+import com.laioffer.spotify.player.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -19,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var api: NetworkApi
     @Inject
     lateinit var databaseDao: DatabaseDao
+    private val playerViewModel: PlayerViewModel by viewModels()
     private val TAG = "lifecycle"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +59,18 @@ class MainActivity : AppCompatActivity() {
             navController.popBackStack(it.itemId, inclusive = false)
             true
         }
+
+        val playerBar = findViewById<ComposeView>(R.id.player_bar)
+        playerBar.apply {
+            setContent {
+                MaterialTheme(colors = darkColors()) {
+                    PlayerBar(
+                        playerViewModel
+                    )
+                }
+            }
+        }
+
         // Test retrofit
         GlobalScope.launch(Dispatchers.IO) {
             //val api = NetworkModule.provideRetrofit().create(NetworkApi::class.java)
